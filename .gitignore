@@ -18,3 +18,5 @@ venv
 
 # Other
 .DS_Store
+dist
+build
