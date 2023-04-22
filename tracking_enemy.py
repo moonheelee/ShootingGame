@@ -29,7 +29,7 @@ class TrackingEnemy(pygame.sprite.Sprite):
             self.last_shot_time = pygame.time.get_ticks()
             bullet = EnemyBullet(self.rect.centerx, self.rect.bottom, self.screen_height, [self.target.rect.x, self.target.rect.y])
             self.bullet_group.add(bullet)
-            self.shot_interval = 600
+            self.shot_interval = 1000
             self.has_shot = True
 
         if self.has_shot:
