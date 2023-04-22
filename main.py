@@ -21,12 +21,20 @@ SHOOTING_ENEMY_SCORE = 10
 CONTINUOUS_SHOOTING_ENEMY_SCORE = 15
 TRACKING_ENEMY_SCORE = 25
 
+BACKGROUND_TILE = 'background_tile.png'
+
 # Initialize Pygame
 pygame.init()
 
 # Set up display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Raiden-like Shooting Game')
+
+# Load the background tile image
+background_tile = pygame.image.load(BACKGROUND_TILE).convert()
+
+# Initialize background tile Y position
+background1_y = 0
 
 pygame.font.init()
 score_font = pygame.font.Font(None, 36)
@@ -173,7 +181,19 @@ def update_sprites():
 
 
 def render():
-    screen.fill((0, 0, 0))
+    global background1_y
+
+    # Draw the background tiles
+    for i in range(-1, (WIDTH // background_tile.get_width()) + 2):
+        for j in range(-1, (HEIGHT // background_tile.get_height()) + 2):
+            screen.blit(background_tile, (i * background_tile.get_width(), background1_y % background_tile.get_height() + j * background_tile.get_height() - background_tile.get_height()))
+
+    # Update the background tiles' Y position to create a scrolling effect
+    background1_y += 1  # Change this value to control the speed of the scrolling background
+    if background1_y >= background_tile.get_height():
+        background1_y = 0
+
+    # Draw the rest of the game elements
     player_group.draw(screen)
     bullet_group.draw(screen)
     enemy_group.draw(screen)
