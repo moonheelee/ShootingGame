@@ -21,3 +21,5 @@ class TargetBullet(pygame.sprite.Sprite):
         self.rect.y += math.sin(math.radians(angle)) * self.speed
         if self.rect.right < 0 or self.rect.left > 800 or self.rect.top > 600 or self.rect.bottom < 0:
             self.kill()
+        if not self.target.alive():
+            self.kill()
