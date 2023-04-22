@@ -4,6 +4,7 @@ import pygame.font
 from player import Player
 from bullet import Bullet
 from enemy import Enemy
+from shooting_enemy import ShootingEnemy
 from target_bullet import TargetBullet
 from explosion import Explosion
 
@@ -25,11 +26,13 @@ player_group.add(player)
 
 bullet_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
+enemy_bullet_group = pygame.sprite.Group()
 explosion_group = pygame.sprite.Group()
 
 clock = pygame.time.Clock()
 enemy_spawn_time = pygame.time.get_ticks()
 score = 0
+enemy_count = 0
 
 # Main game loop
 while True:
@@ -54,7 +57,11 @@ while True:
 
     # Spawn enemies
     if pygame.time.get_ticks() - enemy_spawn_time > 1000:
-        enemy = Enemy(WIDTH, HEIGHT)
+        enemy_count += 1
+        if enemy_count % 5 == 0:
+            enemy = ShootingEnemy(WIDTH, HEIGHT, target=player, bullet_group=enemy_bullet_group)
+        else:
+            enemy = Enemy(WIDTH, HEIGHT)
         enemy_group.add(enemy)
         enemy_spawn_time = pygame.time.get_ticks()
 
@@ -66,7 +73,8 @@ while True:
     score += len(collided_enemies)
 
     collided_player = pygame.sprite.spritecollide(player, enemy_group, True)
-    if len(collided_player) > 0:
+    destroyed_player = pygame.sprite.spritecollide(player, enemy_bullet_group, True)
+    if len(collided_player) > 0 or len(destroyed_player) > 0:
         # Player collided with enemy
         player.kill()
         explosion = Explosion(player.rect.centerx, player.rect.centery)
@@ -85,10 +93,12 @@ while True:
     player_group.draw(screen)
     bullet_group.draw(screen)
     enemy_group.draw(screen)
+    enemy_bullet_group.draw(screen)
     explosion_group.draw(screen)
     player_group.update()
     bullet_group.update()
     enemy_group.update()
+    enemy_bullet_group.update()
     explosion_group.update()
 
     score_text = font.render(f"Score: {score}", True, (255, 255, 255))
