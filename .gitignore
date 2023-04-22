@@ -18,5 +18,8 @@ venv
 
 # Other
 .DS_Store
+
+# PyInstaller
 dist
 build
+main.spec
