@@ -1,0 +1,20 @@
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Virtual environment
+venv
+
+# Other
+.DS_Store
