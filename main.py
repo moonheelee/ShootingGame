@@ -16,6 +16,11 @@ SPECIAL_BULLET_MAX = 5
 SPECIAL_BULLET_RECHARGE_TIME = 10000
 ENEMY_SPAWN_INTERVAL = 1000
 
+ENEMY_SCORE = 5
+SHOOTING_ENEMY_SCORE = 10
+CONTINUOUS_SHOOTING_ENEMY_SCORE = 15
+TRACKING_ENEMY_SCORE = 25
+
 # Initialize Pygame
 pygame.init()
 
@@ -100,6 +105,11 @@ def spawn_enemies():
         enemy_spawn_time = pygame.time.get_ticks()
 
 
+def update_score(elapsed_time):
+    global score
+    score += elapsed_time
+
+
 def handle_collisions():
     global score
     global collided_player
@@ -109,7 +119,14 @@ def handle_collisions():
     for enemy in collided_enemies:
         explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
         explosion_group.add(explosion)
-    score += len(collided_enemies)
+        if isinstance(enemy, ShootingEnemy):
+            score += SHOOTING_ENEMY_SCORE
+        elif isinstance(enemy, ContinuousShootingEnemy):
+            score += CONTINUOUS_SHOOTING_ENEMY_SCORE
+        elif isinstance(enemy, TrackingEnemy):
+            score += TRACKING_ENEMY_SCORE
+        else:
+            score += ENEMY_SCORE
 
     collided_player = pygame.sprite.spritecollide(player, enemy_group, True)
     destroyed_player = pygame.sprite.spritecollide(player, enemy_bullet_group, True)
