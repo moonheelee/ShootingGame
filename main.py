@@ -125,11 +125,14 @@ def end_game():
 
     game_over_text = score_font.render("Game Over", True, (255, 255, 255))
     screen.blit(game_over_text,
-                (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - game_over_text.get_height() // 2))
+                (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - game_over_text.get_height() // 2 - 40))
+
+    score_text = score_font.render(f"Total Score: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 
     restart_text = score_font.render("Press R to restart or Q to quit", True, (255, 255, 255))
     screen.blit(restart_text,
-                (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 - restart_text.get_height() // 2 + 50))
+                (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 - restart_text.get_height() // 2 + 40))
 
     pygame.display.flip()
 
